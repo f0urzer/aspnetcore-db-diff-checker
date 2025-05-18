@@ -1,0 +1,51 @@
+﻿@model DbDiffChecker.Core.Models.Response.ComparisonResult
+@{
+    var targetName = ViewData["TargetName"] as string;
+}
+
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingTables">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTables" aria-expanded="false" aria-controls="collapseTables">
+            Table Differences (@Model.TableDifferences.Count)
+        </button>
+    </h2>
+    <div id="collapseTables" class="accordion-collapse collapse" aria-labelledby="headingTables" data-bs-parent="#comparisonAccordion">
+        <div class="accordion-body">
+            @if (Model.TableDifferences.Count == 0)
+            {
+                <div class="alert alert-success">No table differences found.</div>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Schema</th>
+                            <th>Table Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var diff in Model.TableDifferences)
+                        {
+                            <tr class="@(diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added ? "table-success" : "table-danger")">
+                                <td>@diff.SchemaName</td>
+                                <td>@diff.TableName</td>
+                                <td>
+                                    @if (diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added)
+                                    {
+                                        <span class="badge bg-success">Added in @targetName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Missing in @targetName</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

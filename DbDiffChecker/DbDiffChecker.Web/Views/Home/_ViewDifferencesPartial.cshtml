@@ -1,0 +1,67 @@
+﻿@model DbDiffChecker.Core.Models.Response.ComparisonResult
+@{
+    var sourceName = ViewData["SourceName"] as string;
+    var targetName = ViewData["TargetName"] as string;
+}
+
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingViews">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseViews" aria-expanded="false" aria-controls="collapseViews">
+            View Differences (@Model.ViewDifferences.Count)
+        </button>
+    </h2>
+    <div id="collapseViews" class="accordion-collapse collapse" aria-labelledby="headingViews" data-bs-parent="#comparisonAccordion">
+        <div class="accordion-body">
+            @if (Model.ViewDifferences.Count == 0)
+            {
+                <div class="alert alert-success">No view differences found.</div>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Schema</th>
+                            <th>View</th>
+                            <th>Status</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var diff in Model.ViewDifferences)
+                        {
+                            <tr class="@(diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added ? "table-success" :
+                                         diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Removed ? "table-danger" : "table-warning")">
+                                <td>@diff.SchemaName</td>
+                                <td>@diff.ViewName</td>
+                                <td>
+                                    <span class="badge @(diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added ? "bg-success" :
+                                                         diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Removed ? "bg-danger" : "bg-warning text-dark")">
+                                        @diff.Type
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Modified)
+                                    {
+                                        <div>
+                                            <strong>@sourceName:</strong><br />
+                                            <pre class="bg-light p-2">@diff.SourceDefinition</pre>
+                                            <strong>@targetName:</strong><br />
+                                            <pre class="bg-light p-2">@diff.TargetDefinition</pre>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <pre class="bg-light p-2">
+                                            @((diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added) ? diff.TargetDefinition : diff.SourceDefinition)
+                                                    </pre>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

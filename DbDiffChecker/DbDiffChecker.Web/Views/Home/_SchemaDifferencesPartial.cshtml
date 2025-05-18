@@ -1,0 +1,50 @@
+﻿@model DbDiffChecker.Core.Models.Response.ComparisonResult
+@{
+    var sourceName = ViewData["SourceName"] as string;
+    var targetName = ViewData["TargetName"] as string;
+}
+
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingSchemas">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSchemas" aria-expanded="true" aria-controls="collapseSchemas">
+            Schema Differences (@Model.SchemaDifferences.Count)
+        </button>
+    </h2>
+    <div id="collapseSchemas" class="accordion-collapse collapse show" aria-labelledby="headingSchemas" data-bs-parent="#comparisonAccordion">
+        <div class="accordion-body">
+            @if (Model.SchemaDifferences.Count == 0)
+            {
+                <div class="alert alert-success">No schema differences found.</div>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Schema Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var diff in Model.SchemaDifferences)
+                        {
+                            <tr class="@(diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added ? "table-success" : "table-danger")">
+                                <td>@diff.SchemaName</td>
+                                <td>
+                                    @if (diff.Type == DbDiffChecker.Core.Models.Difference.DifferenceType.Added)
+                                    {
+                                        <span class="badge bg-success">Added in @targetName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Missing in @targetName</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Comparison Results";
+    var result = ViewData["ComparisonResult"] as DbDiffChecker.Core.Models.Response.ComparisonResult;
+    var sourceName = ViewData["SourceName"] as string;
+    var targetName = ViewData["TargetName"] as string;
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Database Comparison Results</h1>
+    <p>Comparing <strong>@sourceName</strong> with <strong>@targetName</strong></p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="accordion" id="comparisonAccordion">
+
+            <!-- SCHEMA DIFFERENCES -->
+            @await Html.PartialAsync("_SchemaDifferencesPartial", result)
+
+            <!-- TABLE DIFFERENCES -->
+            @await Html.PartialAsync("_TableDifferencesPartial", result)
+
+            <!-- VIEW DIFFERENCES -->
+            @await Html.PartialAsync("_ViewDifferencesPartial", result)
+
+            <!-- COLUMN DIFFERENCES -->
+            @await Html.PartialAsync("_ColumnDifferencesPartial", result)
+
+            <!-- CONSTRAINT DIFFERENCES -->
+            @await Html.PartialAsync("_ConstraintDifferencesPartial", result)
+
+            <!-- INDEX DIFFERENCES -->
+            @await Html.PartialAsync("_IndexDifferencesPartial", result)
+
+        </div>
+    </div>
+</div>

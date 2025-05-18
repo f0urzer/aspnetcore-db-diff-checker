@@ -1,0 +1,79 @@
+﻿@model DbDiffChecker.Core.Models.Info.DbConnectionInfo
+@{
+    ViewData["Title"] = "PostgreSQL Database Diff Checker";
+}
+
+<div class="text-center">
+    <h1 class="display-4">PostgreSQL Database Diff Checker</h1>
+    <p>Compare two PostgreSQL databases to find schema differences</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <form asp-action="Compare" method="post">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Database Connection Information
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <!-- Source Database -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-success bg-opacity-25">
+                                    Source Database
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="sourceConnectionName" class="form-label">Database Name</label>
+                                        <input type="text" class="form-control" id="sourceConnectionName" name="sourceConnection.Name" placeholder="Source DB Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sourceConnectionString" class="form-label">Connection String</label>
+                                        <input type="text" class="form-control" id="sourceConnectionString" name="sourceConnection.ConnectionString" placeholder="Host=localhost;Database=db1;Username=postgres;Password=pass">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Target Database -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-danger bg-opacity-25">
+                                    Target Database
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="targetConnectionName" class="form-label">Database Name</label>
+                                        <input type="text" class="form-control" id="targetConnectionName" name="targetConnection.Name" placeholder="Target DB Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="targetConnectionString" class="form-label">Connection String</label>
+                                        <input type="text" class="form-control" id="targetConnectionString" name="targetConnection.ConnectionString" placeholder="Host=localhost;Database=db2;Username=postgres;Password=pass">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Compare Databases</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
