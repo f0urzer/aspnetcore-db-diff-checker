@@ -18,11 +18,11 @@ This tool is designed for database administrators, developers, and QA engineers 
 ### 🚀 Key Features
 
 - Detect differences in:
-  - ✅ Schemas
-  - ✅ Tables and columns
-  - ✅ Constraints (primary, unique, foreign keys)
-  - ✅ Indexes
-  - ✅ Views (`CREATE VIEW` definitions)
+  - Schemas
+  - Tables and columns
+  - Constraints (primary, unique, foreign keys)
+  - Indexes
+  - Views (`CREATE VIEW` definitions)
 - Clean and intuitive **Bootstrap-powered UI**
 - Grouped results using collapsible accordions
 - Visual indicators: Added, Removed, Modified
@@ -43,7 +43,9 @@ This tool is designed for database administrators, developers, and QA engineers 
 ### 📁 Project Structure
 
 DbDiffChecker/
+
 ├── DbDiffChecker.Web # MVC front-end application
+
 ├── DbDiffChecker.Core # Models and business logic
 
 ---
