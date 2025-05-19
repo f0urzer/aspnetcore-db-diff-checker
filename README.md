@@ -1,56 +1,86 @@
-#PostgreSQL Database Diff Checker using C# .NET Core with an MVC architecture. 
+# PostgreSQL DB Diff Checker 🔍
 
-#The solution consists of:
-##Core Logic Layer - Contains the domain models and services for database operations
-##Web Application - MVC interface with intuitive color-coded results
+An ASP.NET Core MVC tool to visually compare two PostgreSQL databases and identify schema differences across multiple dimensions.
 
-#Key Features
-##1. Database Connection
-Users can enter source and target database connection strings with descriptive names
-Connection form provides examples of PostgreSQL connection strings
-Light green and light red UI differentiation for source and target databases
+---
 
-##2. Schema Comparison
-Detects missing or newly added schemas between databases
-Shows schema ownership differences
+### 📌 Project Purpose
 
-##3. Table Comparison
-Lists tables that exist in one database but not the other
-Organizes tables by schema for better clarity
+This tool is designed for database administrators, developers, and QA engineers who need to:
 
-##4. Column Comparison
-Compares column properties:
-- Names
-- Data types
-- Nullable constraints
-- Default values
-- Comments
+- Compare **structural differences** between PostgreSQL databases.
+- Validate **changes across environments** (e.g., dev vs. staging).
+- Ensure **schema consistency** in CI/CD workflows.
+- Prepare migration reports and regression checks.
 
-##5. Constraint Comparison
-Compares primary keys, foreign keys, unique constraints, and check constraints
-Shows the full constraint definition for easy analysis
+---
 
-##6. Index Comparison
-Compares database indexes between schemas
-Shows the full index definition
+### 🚀 Key Features
 
-##7. Visual Presentation
-Color-coded differences:
-- Green for newly added items
-- Red for missing items
-- Yellow for modified items
+- Detect differences in:
+  - ✅ Schemas
+  - ✅ Tables and columns
+  - ✅ Constraints (primary, unique, foreign keys)
+  - ✅ Indexes
+  - ✅ Views (`CREATE VIEW` definitions)
+- Clean and intuitive **Bootstrap-powered UI**
+- Grouped results using collapsible accordions
+- Visual indicators: Added, Removed, Modified
+- Ready for further extension (Functions, Procedures, Data Diff)
 
-##Technical Implementation:
-Database Access: Uses Npgsql library to connect to PostgreSQL databases
-Query System: Utilizes PostgreSQL system catalogs and information_schema
-Comparison Engine: Custom logic to detect additions, removals, and modifications
-Responsive UI: Bootstrap-based interface with proper color accessibility
+---
 
-##Future Extensibility
-The solution is designed to easily accommodate your future requirements:
+### 🧰 Technologies Used
 
-##Views comparison
-Permissions comparison
-Function/procedure source code comparison
+- ASP.NET Core MVC (.NET 6+)
+- Razor View Engine
+- PostgreSQL with Npgsql
+- Bootstrap 5 (UI)
+- pg_catalog & information_schema introspection queries
 
-These can be added by implementing additional queries in the PostgreSqlDatabaseService and updating the UI to display the differences.
+---
+
+### 📁 Project Structure
+
+DbDiffChecker/
+├── DbDiffChecker.Web # MVC front-end application
+├── DbDiffChecker.Core # Models and business logic
+
+---
+
+### 📸 UI Preview
+
+![image](https://github.com/user-attachments/assets/7033b42c-32a1-46fe-9536-27f1cc2077b9)
+![image](https://github.com/user-attachments/assets/867fce02-3710-4121-a7ca-bf6c3de896e5)
+
+---
+
+### 📊 Comparison Categories
+
+Each comparison result is grouped and displayed in an accordion format:
+- Schema Differences – added or removed schemas
+- Table Differences – missing or extra tables
+- View Differences – pg_get_viewdef() comparison
+- Column Differences – type, nullability, default value changes
+- Constraint Differences – PKs, FKs, UNIQUE constraints
+- Index Differences – definition-based differences
+
+---
+
+### 🔮 Upcoming Features
+ Compare PostgreSQL Functions via pg_get_functiondef()
+ - Compare stored Procedures
+ - Row-level data diffing using checksums or hashes
+ - Export reports to PDF / Excel
+ - CLI interface for automation pipelines
+
+---
+
+### 🤝 Contribution Guidelines
+We welcome community contributions!
+- Fork the repository
+- Create a branch: feature/your-feature-name
+- Commit your changes
+- Open a pull request
+
+Bug reports and suggestions are also appreciated.
